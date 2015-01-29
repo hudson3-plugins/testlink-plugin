@@ -23,13 +23,15 @@
  */
 package hudson.plugins.testlink;
 
+import com.tupilabs.testng.parser.Suite;
+import com.tupilabs.testng.parser.TestNGParser;
 import hudson.CopyOnWrite;
 import hudson.init.InitMilestone;
 import hudson.init.Initializer;
-import hudson.model.Items;
 import hudson.model.AbstractProject;
 import hudson.model.Descriptor;
 import hudson.model.FreeStyleProject;
+import hudson.model.Items;
 import hudson.plugins.testlink.result.ResultSeeker;
 import hudson.plugins.testlink.util.Messages;
 import hudson.tasks.BuildStep;
@@ -37,19 +39,13 @@ import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Builder;
 import hudson.tasks.Publisher;
 import hudson.util.FormValidation;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
 import net.sf.json.JSONObject;
-
 import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
-
-import com.tupilabs.testng.parser.Suite;
-import com.tupilabs.testng.parser.TestNGParser;
 
 /**
  * @author Bruno P. Kinoshita - http://www.kinoshita.eti.br
@@ -157,18 +153,17 @@ public class TestLinkBuilderDescriptor extends BuildStepDescriptor<Builder> {
 
     @Initializer(before = InitMilestone.PLUGINS_STARTED)
     public static void addAliases() {
-        Items.XSTREAM2.addCompatibilityAlias("hudson.plugins.testlink.testng.Suite", Suite.class);
-        Items.XSTREAM2.addCompatibilityAlias("hudson.plugins.testlink.testng.TestNGParser", TestNGParser.class);
-        Items.XSTREAM2.addCompatibilityAlias("hudson.plugins.testlink.testng.Test",
+        Items.XSTREAM.alias("hudson.plugins.testlink.testng.Suite", Suite.class);
+        Items.XSTREAM.alias("hudson.plugins.testlink.testng.TestNGParser", TestNGParser.class);
+        Items.XSTREAM.alias("hudson.plugins.testlink.testng.Test",
                 com.tupilabs.testng.parser.Test.class);
-        Items.XSTREAM2.addCompatibilityAlias("hudson.plugins.testlink.testng.TestMethod",
+        Items.XSTREAM.alias("hudson.plugins.testlink.testng.TestMethod",
                 com.tupilabs.testng.parser.TestMethod.class);
-        Items.XSTREAM2.addCompatibilityAlias("hudson.plugins.testlink.testng.Class",
+        Items.XSTREAM.alias("hudson.plugins.testlink.testng.Class",
                 com.tupilabs.testng.parser.Class.class);
-        Items.XSTREAM2.addCompatibilityAlias("hudson.plugins.testlink.testng.ParserException",
+        Items.XSTREAM.alias("hudson.plugins.testlink.testng.ParserException",
                 com.tupilabs.testng.parser.ParserException.class);
-        Items.XSTREAM2.alias("hudson.plugins.testlink.testng.Class.list", java.util.LinkedList.class,
+        Items.XSTREAM.alias("hudson.plugins.testlink.testng.Class.list", java.util.LinkedList.class,
                 java.util.LinkedHashSet.class);
     }
-
 }
